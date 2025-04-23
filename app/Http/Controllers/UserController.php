@@ -1,0 +1,106 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Services\UserService;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+
+class UserController extends Controller
+{
+    protected $userService;
+
+    // Inyectamos el servicio de usuarios
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
+    /**
+     * Devuelve todos los usuarios.
+     */
+    public function getAllUsers()
+    {
+        $users = $this->userService->getAllUsers();
+        return response()->json($users, Response::HTTP_OK);
+    }
+
+    /**
+     * Crea un nuevo usuario.
+     */
+    public function createUser(Request $request)
+    {
+        $validated = $request->validate([
+            'username' => 'required|string|max:255|unique:users',
+            'password' => 'required|string|min:6',
+            'email' => 'required|string|email|max:255|unique:users',
+            'dni' => 'required|string|max:15|unique:users',
+            'name' => 'required|string|max:255',
+            'surnames' => 'required|string|max:255',
+        ]);
+
+        $user = $this->userService->createUser($validated);
+
+        return response()->json($user, Response::HTTP_CREATED);
+    }
+
+    /**
+     * Devuelve todos los usuarios con un rol específico.
+     */
+    public function getUsersByRole(string $role)
+    {
+        $users = $this->userService->getUsersByRole($role);
+        return response()->json($users, Response::HTTP_OK);
+    }
+
+    /**
+     * Devuelve un usuario con ID específico.
+     */
+    public function getUserById(int $id)
+    {
+        $user = $this->userService->getUserById($id);
+        
+        if (!$user) {
+            return response()->json(['message' => 'Usuario no encontrado'], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json($user, Response::HTTP_OK);
+    }
+
+    /**
+     * Actualiza los datos de un usuario.
+     */
+    public function updateUser(Request $request, int $id)
+    {
+        $validated = $request->validate([
+            'username' => 'sometimes|required|string|max:255|unique:users',
+            'password' => 'sometimes|required|string|min:6',
+            'email' => 'sometimes|required|string|email|max:255|unique:users',
+            'dni' => 'sometimes|required|string|max:15|unique:users',
+            'name' => 'sometimes|required|string|max:255',
+            'surnames' => 'sometimes|required|string|max:255',
+        ]);
+
+        $user = $this->userService->updateUser($id, $validated);
+
+        if (!$user) {
+            return response()->json(['message' => 'Usuario no encontrado o no se pudo actualizar'], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json($user, Response::HTTP_OK);
+    }
+
+    /**
+     * Elimina un usuario por su ID.
+     */
+    public function deleteUser(int $id)
+    {
+        $deleted = $this->userService->deleteUser($id);
+
+        if (!$deleted) {
+            return response()->json(['message' => 'Usuario no encontrado o no se pudo eliminar'], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json(['message' => 'Usuario eliminado con éxito'], Response::HTTP_OK);
+    }
+}
