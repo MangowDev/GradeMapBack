@@ -1,28 +1,80 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SubjectController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GradeController;
+use App\Http\Controllers\ComputerController;
+use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\BoardController;
 
-
+// Rutas de autenticación
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 
-Route::post('/user', [UserController::class, 'createUser']);
-Route::get('/user/{id}', [UserController::class, 'getUserById']);
-Route::get('/user/role/{role}', [UserController::class, 'getUsersByRole']);
-Route::put('/user/{id}', [UserController::class, 'updateUser']);
-Route::delete('/user/{id}', [UserController::class, 'deleteUser']);
+// Rutas para usuarios
+Route::prefix('users')->group(function () {
+    Route::get('/', [UserController::class, 'getAllUsers']);
+    Route::post('/', [UserController::class, 'createUser']);
+    Route::get('/{id}', [UserController::class, 'getUserById']);
+    Route::get('/role/{role}', [UserController::class, 'getUsersByRole']);
+    Route::put('/{id}', [UserController::class, 'updateUser']);
+    Route::delete('/{id}', [UserController::class, 'deleteUser']);
+});
 
-Route::get('/subjects', [SubjectController::class, 'getAllSubjects']);
-Route::post('/subjects', [SubjectController::class, 'createSubject']);
-Route::get('/subjects/{id}', [SubjectController::class, 'getSubjectById']);
-Route::put('/subjects/{id}', [SubjectController::class, 'updateSubject']);
-Route::delete('/subjects/{id}', [SubjectController::class, 'deleteSubject']);
+// Rutas para asignaturas
+Route::prefix('subjects')->group(function () {
+    Route::get('/', [SubjectController::class, 'getAllSubjects']);
+    Route::post('/', [SubjectController::class, 'createSubject']);
+    Route::get('/{id}', [SubjectController::class, 'getSubjectById']);
+    Route::put('/{id}', [SubjectController::class, 'updateSubject']);
+    Route::delete('/{id}', [SubjectController::class, 'deleteSubject']);
+});
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+// Rutas para notas
+Route::prefix('grades')->group(function () {
+    Route::get('/', [GradeController::class, 'getAllGrades']);
+    Route::post('/', [GradeController::class, 'createGrade']);
+    Route::get('/{id}', [GradeController::class, 'getGradeById']);
+    Route::put('/{id}', [GradeController::class, 'updateGrade']);
+    Route::delete('/{id}', [GradeController::class, 'deleteGrade']);
+});
+
+// Rutas para computadoras
+Route::prefix('computers')->group(function () {
+    Route::get('/', [ComputerController::class, 'getAllComputers']);
+    Route::post('/', [ComputerController::class, 'createComputer']);
+    Route::get('/{id}', [ComputerController::class, 'getComputerById']);
+    Route::put('/{id}', [ComputerController::class, 'updateComputer']);
+    Route::delete('/{id}', [ComputerController::class, 'deleteComputer']);
+});
+
+// Rutas para aulas
+Route::prefix('classrooms')->group(function () {
+    Route::get('/', [ClassroomController::class, 'getAllClassrooms']);
+    Route::post('/', [ClassroomController::class, 'createClassroom']);
+    Route::get('/{id}', [ClassroomController::class, 'getClassroomById']);
+    Route::put('/{id}', [ClassroomController::class, 'updateClassroom']);
+    Route::delete('/{id}', [ClassroomController::class, 'deleteClassroom']);
+});
+
+// Rutas para mesas
+Route::prefix('boards')->group(function () {
+    Route::get('/', [BoardController::class, 'getAllBoards']);
+    Route::post('/', [BoardController::class, 'createBoard']);
+    Route::get('/{id}', [BoardController::class, 'getBoardById']);
+    Route::put('/{id}', [BoardController::class, 'updateBoard']);
+    Route::delete('/{id}', [BoardController::class, 'deleteBoard']);
+});
+
+// Ruta para obtener el usuario autenticado
+Route::middleware('auth:sanctum')->get('/me', function (Request $request) {
     return $request->user();
 });
+
+Route::options('{any}', function () {
+    return response()->json([], 200);
+})->where('any', '.*');

@@ -10,7 +10,6 @@ class SubjectController extends Controller
 {
     protected $subjectService;
 
-    // Inyectamos el servicio de Subjects
     public function __construct(SubjectService $subjectService)
     {
         $this->subjectService = $subjectService;
@@ -30,7 +29,6 @@ class SubjectController extends Controller
      */
     public function createSubject(Request $request)
     {
-        // Validar los datos de entrada
         $validated = $request->validate([
             'name' => 'required|string|max:255',
         ]);
@@ -48,7 +46,7 @@ class SubjectController extends Controller
         $subject = $this->subjectService->getSubjectById($id);
 
         if (!$subject) {
-            return response()->json(['message' => 'Materia no encontrada'], Response::HTTP_NOT_FOUND);
+            return response()->json(['message' => 'Asignatura no encontrada'], Response::HTTP_NOT_FOUND);
         }
 
         return response()->json($subject, Response::HTTP_OK);
@@ -66,7 +64,7 @@ class SubjectController extends Controller
         $subject = $this->subjectService->updateSubject($id, $validated);
 
         if (!$subject) {
-            return response()->json(['message' => 'Materia no encontrada o no se pudo actualizar'], Response::HTTP_NOT_FOUND);
+            return response()->json(['message' => 'Asignatura no encontrada o no se pudo actualizar'], Response::HTTP_NOT_FOUND);
         }
 
         return response()->json($subject, Response::HTTP_OK);
@@ -80,9 +78,9 @@ class SubjectController extends Controller
         $deleted = $this->subjectService->deleteSubject($id);
 
         if (!$deleted) {
-            return response()->json(['message' => 'Materia no encontrada o no se pudo eliminar'], Response::HTTP_NOT_FOUND);
+            return response()->json(['message' => 'Asignatura no encontrada o no se pudo eliminar'], Response::HTTP_NOT_FOUND);
         }
 
-        return response()->json(['message' => 'Materia eliminada con éxito'], Response::HTTP_OK);
+        return response()->json(['message' => 'Asignatura eliminada con éxito'], Response::HTTP_OK);
     }
 }

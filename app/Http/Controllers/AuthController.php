@@ -36,7 +36,7 @@ class AuthController extends Controller
             'dni' => $request->dni,
         ]);
 
-        $token = $user->createToken('MyAppToken')->plainTextToken;
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'user' => $user,
@@ -47,7 +47,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'required|username',
+            'username' => 'required|string',
             'password' => 'required|string|min:8',
         ]);
 
@@ -61,7 +61,7 @@ class AuthController extends Controller
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
-        $token = $user->createToken('MyAppToken')->plainTextToken;
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'user' => $user,
