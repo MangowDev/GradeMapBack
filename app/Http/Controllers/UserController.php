@@ -31,17 +31,31 @@ class UserController extends Controller
     public function createUser(Request $request)
     {
         $validated = $request->validate([
-            'username' => 'required|string|max:255|unique:users',
+            'username' => 'required|string|max:30|unique:users',
             'password' => 'required|string|min:6',
-            'email' => 'required|string|email|max:255|unique:users',
-            'dni' => 'required|string|max:15|unique:users',
-            'name' => 'required|string|max:255',
-            'surnames' => 'required|string|max:255',
+            'email' => 'required|string|email|max:50|unique:users',
+            'dni' => 'required|string|max:9|unique:users',
+            'name' => 'required|string|max:20',
+            'surnames' => 'required|string|max:30',
         ]);
 
         $user = $this->userService->createUser($validated);
 
         return response()->json($user, Response::HTTP_CREATED);
+    }
+
+    /**
+     * Devuelve un usuario con ID específico.
+     */
+    public function getUserById(int $id)
+    {
+        $user = $this->userService->getUserById($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'Usuario no encontrado'], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json($user, Response::HTTP_OK);
     }
 
     /**
@@ -53,19 +67,23 @@ class UserController extends Controller
         return response()->json($users, Response::HTTP_OK);
     }
 
-    /**
-     * Devuelve un usuario con ID específico.
-     */
-    public function getUserById(int $id)
+    public function getUsersByCreationDate()
     {
-        $user = $this->userService->getUserById($id);
-        
-        if (!$user) {
-            return response()->json(['message' => 'Usuario no encontrado'], Response::HTTP_NOT_FOUND);
+        $users = $this->userService->getUsersByCreationDate();
+        return response()->json($users, Response::HTTP_OK);
+    }
+
+    public function getUserClassroom(int $id)
+    {
+        $data = $this->userService->getUserWithClassroom($id);
+
+        if (!$data) {
+            return response()->json(['message' => 'Usuario o clase no encontrada'], Response::HTTP_NOT_FOUND);
         }
 
-        return response()->json($user, Response::HTTP_OK);
+        return response()->json($data, Response::HTTP_OK);
     }
+
 
     /**
      * Actualiza los datos de un usuario.

@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -19,10 +18,13 @@ Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logo
 Route::prefix('users')->group(function () {
     Route::get('/', [UserController::class, 'getAllUsers']);
     Route::post('/', [UserController::class, 'createUser']);
-    Route::get('/{id}', [UserController::class, 'getUserById']);
+    Route::get('/recent', [UserController::class, 'getUsersByCreationDate']);
     Route::get('/role/{role}', [UserController::class, 'getUsersByRole']);
+    Route::get('/{id}', [UserController::class, 'getUserById']);
     Route::put('/{id}', [UserController::class, 'updateUser']);
     Route::delete('/{id}', [UserController::class, 'deleteUser']);
+    Route::get('/{id}/classroom', [UserController::class, 'getUserClassroom']);
+
 });
 
 // Rutas para asignaturas

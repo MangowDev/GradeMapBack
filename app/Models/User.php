@@ -69,5 +69,17 @@ class User extends Authenticatable
     public function classroomsAsTeacher() {
         return $this->hasMany(Classroom::class, 'teacher_id');
     }
+
+    public function classroom()
+{
+    return $this->hasOneThrough(
+        Classroom::class,   
+        Board::class,       
+        'id',               
+        'id',               
+        'computer_id',      
+        'classroom_id'      
+    );
+}
      
 }

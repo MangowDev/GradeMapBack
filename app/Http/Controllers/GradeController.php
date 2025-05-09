@@ -62,8 +62,8 @@ class GradeController extends Controller
     {
         $validated = $request->validate([
             'grade' => 'sometimes|numeric|min:0|max:100',
-            'type' => 'sometimes|string|max:255',
-            'name' => 'sometimes|string|max:255',
+            'type' => 'required|string|in:examen,trabajo',
+            'name' => 'sometimes|string|max:40',
             'user_id' => 'sometimes|exists:users,id',
             'subject_id' => 'sometimes|exists:subjects,id',
         ]);

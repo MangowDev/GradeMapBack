@@ -30,7 +30,7 @@ class SubjectController extends Controller
     public function createSubject(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:40',
         ]);
 
         $subject = $this->subjectService->createSubject($validated);

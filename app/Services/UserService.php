@@ -25,6 +25,14 @@ class UserService
     }
 
     /**
+     * Devuelve un usuario con id especifico.
+     */
+    public function getUserById(int $id): ?User
+    {
+        return User::find($id);
+    }
+
+    /**
      * Devuelve todos los usuarios con un rol específico.
      */
     public function getUsersByRole(string $role)
@@ -32,13 +40,24 @@ class UserService
         return User::where('role', $role)->get();
     }
 
-    /**
-     * Devuelve un usuario con id especifico.
-     */
-    public function getUserById(int $id): ?User
+    public function getUsersByCreationDate()
     {
-        return User::find($id);
+        return User::orderBy('created_at', 'desc')->get();
     }
+
+    public function getUserWithClassroom(int $id): ?array
+{
+    $user = User::with('computer.board.classroom')->find($id);
+
+    if (!$user || !$user->computer || !$user->computer->board || !$user->computer->board->classroom) {
+        return null;
+    }
+
+    return [
+        'classroom' => $user->computer->board->classroom,
+    ];
+}
+
 
     /**
      * Actualiza los datos de un usuario.
