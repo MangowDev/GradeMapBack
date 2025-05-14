@@ -37,6 +37,8 @@ class UserController extends Controller
             'dni' => 'required|string|max:9|unique:users',
             'name' => 'required|string|max:20',
             'surnames' => 'required|string|max:30',
+            'role' => 'sometimes|string',
+            'computer_id' => 'sometimes|numeric'
         ]);
 
         $user = $this->userService->createUser($validated);
@@ -91,12 +93,14 @@ class UserController extends Controller
     public function updateUser(Request $request, int $id)
     {
         $validated = $request->validate([
-            'username' => 'sometimes|required|string|max:255|unique:users',
-            'password' => 'sometimes|required|string|min:6',
-            'email' => 'sometimes|required|string|email|max:255|unique:users',
-            'dni' => 'sometimes|required|string|max:15|unique:users',
-            'name' => 'sometimes|required|string|max:255',
-            'surnames' => 'sometimes|required|string|max:255',
+            'username' => 'sometimes|string|max:30|unique:users',
+            'password' => 'sometimes|string|min:6',
+            'email' => 'sometimes|string|email|max:50|unique:users',
+            'dni' => 'sometimes|string|max:9|unique:users',
+            'name' => 'sometimes|string|max:20',
+            'surnames' => 'sometimes|string|max:30',
+            'role' => 'sometimes|string',
+            'computer_id' => 'sometimes|numeric'
         ]);
 
         $user = $this->userService->updateUser($id, $validated);

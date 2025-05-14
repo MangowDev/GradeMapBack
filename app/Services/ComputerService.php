@@ -16,6 +16,16 @@ class ComputerService
         return Computer::find($id);
     }
 
+    public function getComputerWithRelations(int $id): ?Computer
+    {
+        return Computer::with(['board.classroom', 'user'])->find($id);
+    }
+
+    public function getAllComputersWithRelations()
+    {
+        return Computer::with(['board.classroom', 'user'])->get();
+    }
+
     public function createComputer(array $data): Computer
     {
         return Computer::create($data);

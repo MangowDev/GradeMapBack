@@ -53,6 +53,28 @@ class ComputerController extends Controller
     }
 
     /**
+     * Devuelve un ordenador y sus relaciones con ID específico.
+     */
+    public function getComputerDetails(int $id)
+    {
+        $computer = $this->computerService->getComputerWithRelations($id);
+
+        if (!$computer) {
+            return response()->json(['message' => 'Ordenador no encontrado'], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json($computer, Response::HTTP_OK);
+    }
+
+    public function getAllComputersWithRelations()
+    {
+        $computers = $this->computerService->getAllComputersWithRelations();
+        return response()->json($computers, Response::HTTP_OK);
+    }
+
+
+
+    /**
      * Actualiza los datos de un ordenador.
      */
     public function updateComputer(Request $request, int $id)

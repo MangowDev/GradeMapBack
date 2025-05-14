@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -24,7 +25,6 @@ Route::prefix('users')->group(function () {
     Route::put('/{id}', [UserController::class, 'updateUser']);
     Route::delete('/{id}', [UserController::class, 'deleteUser']);
     Route::get('/{id}/classroom', [UserController::class, 'getUserClassroom']);
-
 });
 
 // Rutas para asignaturas
@@ -49,7 +49,9 @@ Route::prefix('grades')->group(function () {
 Route::prefix('computers')->group(function () {
     Route::get('/', [ComputerController::class, 'getAllComputers']);
     Route::post('/', [ComputerController::class, 'createComputer']);
+    Route::get('/details', [ComputerController::class, 'getAllComputersWithRelations']);
     Route::get('/{id}', [ComputerController::class, 'getComputerById']);
+    Route::get('/{id}/details', [ComputerController::class, 'getComputerDetails']);
     Route::put('/{id}', [ComputerController::class, 'updateComputer']);
     Route::delete('/{id}', [ComputerController::class, 'deleteComputer']);
 });
