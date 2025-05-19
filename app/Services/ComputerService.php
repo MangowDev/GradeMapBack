@@ -28,8 +28,20 @@ class ComputerService
 
     public function createComputer(array $data): Computer
     {
-        return Computer::create($data);
+        $userId = $data['user_id'] ?? null;
+        unset($data['user_id']);
+
+        $computer = Computer::create($data);
+
+        if ($userId) {
+            $user = \App\Models\User::findOrFail($userId);
+            $user->computer_id = $computer->id;
+            $user->save();
+        }
+
+        return $computer;
     }
+
 
     public function updateComputer(int $id, array $data): ?Computer
     {

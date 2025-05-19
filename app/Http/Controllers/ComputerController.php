@@ -31,11 +31,12 @@ class ComputerController extends Controller
     {
         $validated = $request->validate([
             'board_id' => 'nullable|exists:boards,id',
+            'user_id' => 'nullable|exists:users,id',
         ]);
 
         $computer = $this->computerService->createComputer($validated);
 
-        return response()->json($computer, Response::HTTP_CREATED);
+        return response()->json($computer->load('user'), Response::HTTP_CREATED);
     }
 
     /**

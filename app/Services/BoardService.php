@@ -16,6 +16,16 @@ class BoardService
         return Board::find($id);
     }
 
+    public function getAllBoardsWithRelations()
+    {
+        return Board::with(['classroom', 'computers'])->get();
+    }
+
+    public function getBoardWithRelations(int $id): ?Board
+    {
+        return Board::with(['classroom', 'computers'])->find($id);
+    }
+
     public function createBoard(array $data): Board
     {
         return Board::create($data);

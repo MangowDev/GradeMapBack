@@ -13,6 +13,7 @@ class Computer extends Model
 
     protected $fillable = [
         'board_id',
+        'user_id',
     ];
 
     public function board()

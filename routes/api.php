@@ -69,7 +69,9 @@ Route::prefix('classrooms')->group(function () {
 Route::prefix('boards')->group(function () {
     Route::get('/', [BoardController::class, 'getAllBoards']);
     Route::post('/', [BoardController::class, 'createBoard']);
+    Route::get('/details', [BoardController::class, 'getAllBoardsWithRelations']);
     Route::get('/{id}', [BoardController::class, 'getBoardById']);
+    Route::get('/{id}/details', [BoardController::class, 'getBoardDetails']);
     Route::put('/{id}', [BoardController::class, 'updateBoard']);
     Route::delete('/{id}', [BoardController::class, 'deleteBoard']);
 });

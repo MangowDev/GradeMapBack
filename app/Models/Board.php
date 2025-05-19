@@ -14,11 +14,12 @@ class Board extends Model
 
     protected $fillable = [
         'classroom_id',
+        'computer_id',
     ];
 
     public function computers()
     {
-        return $this->hasMany(Computer::class);
+        return $this->hasMany(Computer::class, 'board_id');
     }
 
     public function classroom()

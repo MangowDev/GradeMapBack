@@ -81,4 +81,23 @@ class BoardController extends Controller
 
         return response()->json(['message' => 'Mesa eliminada con éxito'], Response::HTTP_OK);
     }
+
+
+
+    public function getBoardDetails(int $id)
+    {
+        $board = $this->boardService->getBoardWithRelations($id);
+
+        if (!$board) {
+            return response()->json(['message' => 'Mesa no encontrada'], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json($board, Response::HTTP_OK);
+    }
+
+    public function getAllBoardsWithRelations()
+    {
+        $boards = $this->boardService->getAllBoardsWithRelations();
+        return response()->json($boards, Response::HTTP_OK);
+    }
 }

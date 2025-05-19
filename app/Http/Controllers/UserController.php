@@ -38,7 +38,7 @@ class UserController extends Controller
             'name' => 'required|string|max:20',
             'surnames' => 'required|string|max:30',
             'role' => 'sometimes|string',
-            'computer_id' => 'sometimes|numeric'
+            'computer_id' => 'nullable|numeric'
         ]);
 
         $user = $this->userService->createUser($validated);
