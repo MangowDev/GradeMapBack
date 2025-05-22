@@ -38,6 +38,24 @@ class GradeController extends Controller
         return response()->json($grade, Response::HTTP_OK);
     }
 
+
+    public function getGradeDetails(int $id)
+    {
+        $grade = $this->gradeService->getGradeWithRelations($id);
+
+        if (!$grade) {
+            return response()->json(['message' => 'Nota no encontrada'], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json($grade, Response::HTTP_OK);
+    }
+
+    public function getAllGradesWithRelations()
+    {
+        $grades = $this->gradeService->getAllGradesWithRelations();
+        return response()->json($grades, Response::HTTP_OK);
+    }
+
     /**
      * Crea una nueva calificación.
      */
@@ -45,7 +63,7 @@ class GradeController extends Controller
     {
         $validated = $request->validate([
             'grade' => 'required|numeric|min:0|max:100',
-            'type' => 'required|string|max:255',
+            'type' => 'required|string|in:examen,trabajo,Examen,Trabajo',
             'name' => 'required|string|max:255',
             'user_id' => 'required|exists:users,id',
             'subject_id' => 'required|exists:subjects,id',
@@ -62,7 +80,7 @@ class GradeController extends Controller
     {
         $validated = $request->validate([
             'grade' => 'sometimes|numeric|min:0|max:100',
-            'type' => 'required|string|in:examen,trabajo',
+            'type' => 'sometimes|string|in:examen,trabajo,Examen,Trabajo',
             'name' => 'sometimes|string|max:40',
             'user_id' => 'sometimes|exists:users,id',
             'subject_id' => 'sometimes|exists:subjects,id',

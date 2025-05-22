@@ -40,7 +40,9 @@ Route::prefix('subjects')->group(function () {
 Route::prefix('grades')->group(function () {
     Route::get('/', [GradeController::class, 'getAllGrades']);
     Route::post('/', [GradeController::class, 'createGrade']);
+    Route::get('/details', [GradeController::class, 'getAllGradesWithRelations']);
     Route::get('/{id}', [GradeController::class, 'getGradeById']);
+    Route::get('/{id}/details', [GradeController::class, 'getGradeDetails']);
     Route::put('/{id}', [GradeController::class, 'updateGrade']);
     Route::delete('/{id}', [GradeController::class, 'deleteGrade']);
 });
@@ -60,7 +62,9 @@ Route::prefix('computers')->group(function () {
 Route::prefix('classrooms')->group(function () {
     Route::get('/', [ClassroomController::class, 'getAllClassrooms']);
     Route::post('/', [ClassroomController::class, 'createClassroom']);
+    Route::get('/details', [ClassroomController::class, 'getAllClassroomsWithRelations']);
     Route::get('/{id}', [ClassroomController::class, 'getClassroomById']);
+    Route::get('/{id}/details', [ClassroomController::class, 'getClassroomDetails']);
     Route::put('/{id}', [ClassroomController::class, 'updateClassroom']);
     Route::delete('/{id}', [ClassroomController::class, 'deleteClassroom']);
 });

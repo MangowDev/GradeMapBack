@@ -11,6 +11,16 @@ class ClassroomService
         return Classroom::all();
     }
 
+    public function getAllClassroomsWithRelations()
+    {
+        return Classroom::with('teacher')->get();
+    }
+
+    public function getClassroomWithRelations(int $id): ?Classroom
+    {
+        return Classroom::with('teacher')->find($id);
+    }
+
     public function getClassroomById(int $id): ?Classroom
     {
         return Classroom::find($id);

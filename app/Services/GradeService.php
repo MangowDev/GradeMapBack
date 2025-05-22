@@ -16,6 +16,16 @@ class GradeService
         return Grade::find($id);
     }
 
+    public function getGradeWithRelations(int $id): ?Grade
+    {
+        return Grade::with(['user', 'subject'])->find($id);
+    }
+
+    public function getAllGradesWithRelations()
+    {
+        return Grade::with(['user', 'subject'])->get();
+    }
+
     public function createGrade(array $data): Grade
     {
         return Grade::create($data);

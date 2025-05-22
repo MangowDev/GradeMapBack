@@ -27,6 +27,23 @@ class ClassroomController extends Controller
         return response()->json($classrooms, Response::HTTP_OK);
     }
 
+    public function getAllClassroomsWithRelations()
+    {
+        $classrooms = $this->classroomService->getAllClassroomsWithRelations();
+        return response()->json($classrooms, Response::HTTP_OK);
+    }
+
+        public function getClassroomDetails(int $id)
+    {
+        $classroom = $this->classroomService->getClassroomWithRelations($id);
+
+        if (!$classroom) {
+            return response()->json(['message' => 'Aula no encontrada'], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json($classroom, Response::HTTP_OK);
+    }
+
     /**
      * Devuelve un aula con ID específico.
      */
