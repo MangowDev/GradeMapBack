@@ -13,14 +13,27 @@ class SubjectSeeder extends Seeder
     public function run(): void
     {
         $subjects = [
-            'Matemáticas',
-            'Lengua y Literatura',
-            'Inglés',
-            'Historia',
-            'Física',
-            'Química',
-            'Educación Física',
-            'Tecnología',
+            'Montaje y Mantenimiento de Equipos',
+            'Sistemas Operativos Monopuesto',
+            'Redes Locales',
+            'Aplicaciones Ofimáticas',
+            'Seguridad Informática',
+            'Servicios en Red',
+            'Formación y Orientación Laboral (FOL)',
+            'Empresa e Iniciativa Emprendedora',
+
+            'Bases de Datos',
+            'Lenguajes de Marcas y Sistemas de Gestión de la Información',
+            'Programación',
+            'Diseño web',
+            'Entornos de desarrollo',
+            'Acceso a Datos',
+            'Desarrollo de Interfaces',
+            'Despliegue de Aplicaciones',
+            'Sistemas Informáticos',
+            'Servicios de Red e Internet',
+            'Administración de Sistemas Operativos',
+            'Gestión de Bases de Datos',
         ];
 
         foreach ($subjects as $name) {

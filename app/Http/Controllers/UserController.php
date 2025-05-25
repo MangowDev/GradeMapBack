@@ -86,6 +86,18 @@ class UserController extends Controller
         return response()->json($data, Response::HTTP_OK);
     }
 
+    public function getUserGrades(int $id)
+    {
+        $grades = $this->userService->getUserGrades($id);
+
+        if ($grades === null) {
+            return response()->json(['message' => 'Usuario no encontrado'], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json($grades, Response::HTTP_OK);
+    }
+
+
 
     /**
      * Actualiza los datos de un usuario.

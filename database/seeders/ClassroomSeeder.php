@@ -21,12 +21,14 @@ class ClassroomSeeder extends Seeder
         }
 
         $classrooms = [
-            '1º CFGM',
-            '2º CFGM',
+            '1º SMR',
+            '2º SMR',
             '1º DAW',
             '2º DAW',
-            '3º ESO',
-            '4º ESO',
+            '1º DAM',
+            '2º DAM',
+            '1º ASIR', 
+            '2º ASIR',
         ];
 
         foreach ($classrooms as $name) {

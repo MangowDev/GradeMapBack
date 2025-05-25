@@ -46,17 +46,30 @@ class UserService
     }
 
     public function getUserWithClassroom(int $id): ?array
-{
-    $user = User::with('computer.board.classroom')->find($id);
+    {
+        $user = User::with('computer.board.classroom')->find($id);
 
-    if (!$user || !$user->computer || !$user->computer->board || !$user->computer->board->classroom) {
-        return null;
+        if (!$user || !$user->computer || !$user->computer->board || !$user->computer->board->classroom) {
+            return null;
+        }
+
+        return [
+            'classroom' => $user->computer->board->classroom,
+        ];
     }
 
-    return [
-        'classroom' => $user->computer->board->classroom,
-    ];
-}
+
+    public function getUserGrades(int $userId)
+    {
+        $user = User::with('grades.subject')->find($userId);
+
+        if (!$user) {
+            return null;
+        }
+
+        return $user->grades;
+    }
+
 
 
     /**

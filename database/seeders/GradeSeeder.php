@@ -23,14 +23,12 @@ class GradeSeeder extends Seeder
         }
 
         foreach ($users as $user) {
-            foreach ($subjects as $subject) {
-                $gradeRandom = rand(0, 1);
-                $gradeType = $gradeRandom === 0 ? "Examen" : "Trabajo";
-
+            $userSubjects = $subjects->random(rand(3, 6));
+            foreach ($userSubjects as $subject) {
                 Grade::create([
                     'grade' => round(rand(0, 100) + rand(0, 99) / 100, 2),
-                    'type' => $gradeType,
-                    'name' => $gradeType . ' de ' . $subject->name,
+                    'type' => rand(0, 1) ? 'Examen' : 'Trabajo',
+                    'name' => 'Nota de ' . $subject->name,
                     'user_id' => $user->id,
                     'subject_id' => $subject->id,
                 ]);

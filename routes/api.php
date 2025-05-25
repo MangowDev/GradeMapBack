@@ -21,6 +21,7 @@ Route::prefix('users')->group(function () {
     Route::post('/', [UserController::class, 'createUser']);
     Route::get('/recent', [UserController::class, 'getUsersByCreationDate']);
     Route::get('/role/{role}', [UserController::class, 'getUsersByRole']);
+    Route::get('/{id}/grades', [UserController::class, 'getUserGrades']);
     Route::get('/{id}', [UserController::class, 'getUserById']);
     Route::put('/{id}', [UserController::class, 'updateUser']);
     Route::delete('/{id}', [UserController::class, 'deleteUser']);

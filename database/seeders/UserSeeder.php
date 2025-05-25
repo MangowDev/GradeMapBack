@@ -42,5 +42,7 @@ class UserSeeder extends Seeder
             'surnames' => 'User',
             'role' => 'student',
         ]);
+
+        User::factory()->count(18)->create();
     }
 }
