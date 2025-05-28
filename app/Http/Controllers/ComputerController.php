@@ -78,20 +78,21 @@ class ComputerController extends Controller
     /**
      * Actualiza los datos de un ordenador.
      */
-    public function updateComputer(Request $request, int $id)
-    {
-        $validated = $request->validate([
-            'board_id' => 'sometimes|nullable|exists:boards,id',
-        ]);
+public function updateComputer(Request $request, int $id)
+{
+    $validated = $request->validate([
+        'board_id' => 'sometimes|nullable|exists:boards,id',
+        'user_id' => 'sometimes|nullable|exists:users,id',
+    ]);
 
-        $computer = $this->computerService->updateComputer($id, $validated);
+    $computer = $this->computerService->updateComputer($id, $validated);
 
-        if (!$computer) {
-            return response()->json(['message' => 'Ordenador no encontrado o no se pudo actualizar'], Response::HTTP_NOT_FOUND);
-        }
-
-        return response()->json($computer, Response::HTTP_OK);
+    if (!$computer) {
+        return response()->json(['message' => 'Ordenador no encontrado o no se pudo actualizar'], Response::HTTP_NOT_FOUND);
     }
+
+    return response()->json($computer, Response::HTTP_OK);
+}
 
     /**
      * Elimina un ordenador por su ID.

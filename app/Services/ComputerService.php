@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Computer;
+use App\Models\User;
 
 class ComputerService
 {
@@ -48,7 +49,21 @@ class ComputerService
         $computer = Computer::find($id);
         if (!$computer) return null;
 
+        $userId = $data['user_id'] ?? null;
+        unset($data['user_id']);
+
         $computer->update($data);
+
+        if ($userId) {
+           User::where('computer_id', $computer->id)->update(['computer_id' => null]);
+
+            $user = User::findOrFail($userId);
+            $user->computer_id = $computer->id;
+            $user->save();
+        } else {
+            \App\Models\User::where('computer_id', $computer->id)->update(['computer_id' => null]);
+        }
+
         return $computer;
     }
 
