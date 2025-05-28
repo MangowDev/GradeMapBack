@@ -7,7 +7,8 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libzip-dev \
     zip \
-    && docker-php-ext-install pdo_mysql mbstring zip
+    curl \
+    && docker-php-ext-install pdo pdo_mysql mbstring zip
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -17,7 +18,9 @@ COPY . .
 
 RUN composer install --optimize-autoloader --no-dev
 
-RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
+RUN php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache
 
 COPY ./nginx.conf /etc/nginx/sites-available/default
 
