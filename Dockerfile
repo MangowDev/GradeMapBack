@@ -1,6 +1,7 @@
 FROM php:8.2-fpm
 
 RUN apt-get update && apt-get install -y \
+    nginx \
     git \
     unzip \
     libonig-dev \
@@ -11,12 +12,15 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
+
 COPY . .
 
 RUN composer install --optimize-autoloader --no-dev
 
 RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
 
-EXPOSE 9000
+COPY ./nginx.conf /etc/nginx/sites-available/default
 
-CMD ["php-fpm"]
+EXPOSE 8080
+
+CMD ["sh", "-c", "php-fpm & nginx -g 'daemon off;'"]
