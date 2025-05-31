@@ -27,6 +27,14 @@ class ComputerService
         return Computer::with(['board.classroom', 'user'])->get();
     }
 
+    public function getComputersWithRelationsByIds(array $ids)
+    {
+        return Computer::with(['board.classroom', 'user'])
+            ->whereIn('id', $ids)
+            ->get();
+    }
+
+
     public function createComputer(array $data): Computer
     {
         $userId = $data['user_id'] ?? null;
@@ -44,28 +52,30 @@ class ComputerService
     }
 
 
-    public function updateComputer(int $id, array $data): ?Computer
-    {
-        $computer = Computer::find($id);
-        if (!$computer) return null;
+public function updateComputer(int $id, array $data): ?Computer
+{
+    $computer = Computer::find($id);
+    if (!$computer) return null;
 
-        $userId = $data['user_id'] ?? null;
-        unset($data['user_id']);
+    $userKeyExists = array_key_exists('user_id', $data);
+    $userId = $userKeyExists ? $data['user_id'] : null;
+    unset($data['user_id']);
 
-        $computer->update($data);
+    $computer->update($data);
 
-        if ($userId) {
-           User::where('computer_id', $computer->id)->update(['computer_id' => null]);
+    if ($userKeyExists) {
+        User::where('computer_id', $computer->id)->update(['computer_id' => null]);
 
+        if ($userId !== null) {
             $user = User::findOrFail($userId);
             $user->computer_id = $computer->id;
             $user->save();
-        } else {
-            \App\Models\User::where('computer_id', $computer->id)->update(['computer_id' => null]);
         }
-
-        return $computer;
     }
+
+    return $computer;
+}
+
 
     public function deleteComputer(int $id): bool
     {

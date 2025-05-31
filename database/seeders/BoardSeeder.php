@@ -20,9 +20,30 @@ class BoardSeeder extends Seeder
             return;
         }
 
-        foreach ($classrooms as $classroom) {
+        $targetClassroomId = 1;
+        $targetClassroomId2 = 2;
+
+        $fixedBoards = [3, 3, 3, 3, 2, 3, 3, 2, 1];
+        foreach ($fixedBoards as $size) {
             Board::create([
-                'classroom_id' => $classroom->id, 
+                'classroom_id' => $targetClassroomId,
+                'size' => $size,
+            ]);
+        }
+
+        $fixedBoards = [3, 3, 3, 3, 2, 3, 3, 2, 1];
+        foreach ($fixedBoards as $size) {
+            Board::create([
+                'classroom_id' => $targetClassroomId2,
+                'size' => $size,
+            ]);
+        }
+
+        $otherClassrooms = $classrooms->where('id', '!=', $targetClassroomId);
+        foreach ($otherClassrooms as $classroom) {
+            Board::create([
+                'classroom_id' => $classroom->id,
+                'size' => rand(1, 5),
             ]);
         }
     }

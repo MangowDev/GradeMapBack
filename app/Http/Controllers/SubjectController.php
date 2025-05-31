@@ -31,6 +31,7 @@ class SubjectController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:40',
+            'image' => 'nullable|string'
         ]);
 
         $subject = $this->subjectService->createSubject($validated);
@@ -59,6 +60,7 @@ class SubjectController extends Controller
     {
         $validated = $request->validate([
             'name' => 'sometimes|required|string|max:255',
+            'image' => 'nullable|string'
         ]);
 
         $subject = $this->subjectService->updateSubject($id, $validated);

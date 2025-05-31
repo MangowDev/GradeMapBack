@@ -40,11 +40,6 @@ class UserService
         return User::where('role', $role)->get();
     }
 
-    public function getUsersByCreationDate()
-    {
-        return User::orderBy('created_at', 'desc')->get();
-    }
-
     public function getUserWithClassroom(int $id): ?array
     {
         $user = User::with('computer.board.classroom')->find($id);
@@ -56,6 +51,18 @@ class UserService
         return [
             'classroom' => $user->computer->board->classroom,
         ];
+    }
+
+    public function getAllUsersWithClassrooms()
+    {
+        $users = User::with('computer.board.classroom')->get();
+
+        return $users->map(function ($user) {
+            return [
+                'user' => $user,
+                'classroom' => $user->computer && $user->computer->board ? $user->computer->board->classroom : null,
+            ];
+        });
     }
 
 

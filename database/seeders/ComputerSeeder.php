@@ -21,13 +21,29 @@ class ComputerSeeder extends Seeder
         }
 
         foreach ($boards as $board) {
-            $computersCount = rand(1, 3);
+            $maxSize = $board->size ?? 0;
+
+            if ($maxSize <= 0) {
+                $this->command->warn("La mesa con ID {$board->id} tiene tamaño 0 o indefinido.");
+                continue;
+            }
+
+            $computersCount = rand(1, $maxSize);
 
             for ($i = 0; $i < $computersCount; $i++) {
+                $assignBoard = rand(1, 100) > 30;
+                
                 Computer::create([
-                    'board_id' => $board->id, 
+                    'board_id' => $assignBoard ? $board->id : null,
                 ]);
             }
+        }
+
+        $extraComputers = 5;
+        for ($i = 0; $i < $extraComputers; $i++) {
+            Computer::create([
+                'board_id' => null,
+            ]);
         }
     }
 }

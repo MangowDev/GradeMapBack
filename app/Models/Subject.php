@@ -14,6 +14,7 @@ class Subject extends Model
 
     protected $fillable = [
         'name',
+        'image',
     ];
 
     public function grades() {

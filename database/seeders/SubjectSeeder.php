@@ -21,7 +21,6 @@ class SubjectSeeder extends Seeder
             'Servicios en Red',
             'Formación y Orientación Laboral (FOL)',
             'Empresa e Iniciativa Emprendedora',
-
             'Bases de Datos',
             'Lenguajes de Marcas y Sistemas de Gestión de la Información',
             'Programación',
@@ -36,8 +35,11 @@ class SubjectSeeder extends Seeder
             'Gestión de Bases de Datos',
         ];
 
-        foreach ($subjects as $name) {
-            Subject::create(['name' => $name]);
+        foreach ($subjects as $index => $name) {
+            Subject::create([
+                'name' => $name,
+                'image' => "https://picsum.photos/seed/subject{$index}/300/200"
+            ]);
         }
     }
 }

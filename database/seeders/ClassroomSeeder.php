@@ -21,13 +21,13 @@ class ClassroomSeeder extends Seeder
         }
 
         $classrooms = [
+            '2º DAW',
+            '1º DAW',
             '1º SMR',
             '2º SMR',
-            '1º DAW',
-            '2º DAW',
             '1º DAM',
             '2º DAM',
-            '1º ASIR', 
+            '1º ASIR',
             '2º ASIR',
         ];
 

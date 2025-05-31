@@ -69,11 +69,6 @@ class UserController extends Controller
         return response()->json($users, Response::HTTP_OK);
     }
 
-    public function getUsersByCreationDate()
-    {
-        $users = $this->userService->getUsersByCreationDate();
-        return response()->json($users, Response::HTTP_OK);
-    }
 
     public function getUserClassroom(int $id)
     {
@@ -85,6 +80,14 @@ class UserController extends Controller
 
         return response()->json($data, Response::HTTP_OK);
     }
+
+    public function getAllUsersWithClassrooms()
+    {
+        $usersWithClassrooms = $this->userService->getAllUsersWithClassrooms();
+
+        return response()->json($usersWithClassrooms, Response::HTTP_OK);
+    }
+
 
     public function getUserGrades(int $id)
     {

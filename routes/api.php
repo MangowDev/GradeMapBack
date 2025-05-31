@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logo
 Route::prefix('users')->group(function () {
     Route::get('/', [UserController::class, 'getAllUsers']);
     Route::post('/', [UserController::class, 'createUser']);
-    Route::get('/recent', [UserController::class, 'getUsersByCreationDate']);
+    Route::get('/classroom', [UserController::class, 'getAllUsersWithClassrooms']);
     Route::get('/role/{role}', [UserController::class, 'getUsersByRole']);
     Route::get('/{id}/grades', [UserController::class, 'getUserGrades']);
     Route::get('/{id}', [UserController::class, 'getUserById']);
@@ -55,6 +55,7 @@ Route::prefix('computers')->group(function () {
     Route::get('/details', [ComputerController::class, 'getAllComputersWithRelations']);
     Route::get('/{id}', [ComputerController::class, 'getComputerById']);
     Route::get('/{id}/details', [ComputerController::class, 'getComputerDetails']);
+    Route::post('/batch-details', [ComputerController::class, 'getComputersBatchDetails']);
     Route::put('/{id}', [ComputerController::class, 'updateComputer']);
     Route::delete('/{id}', [ComputerController::class, 'deleteComputer']);
 });
@@ -77,6 +78,7 @@ Route::prefix('boards')->group(function () {
     Route::get('/details', [BoardController::class, 'getAllBoardsWithRelations']);
     Route::get('/{id}', [BoardController::class, 'getBoardById']);
     Route::get('/{id}/details', [BoardController::class, 'getBoardDetails']);
+    Route::post('/batch-details', [BoardController::class, 'getBoardsBatchDetails']);
     Route::put('/{id}', [BoardController::class, 'updateBoard']);
     Route::delete('/{id}', [BoardController::class, 'deleteBoard']);
 });

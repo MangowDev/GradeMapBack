@@ -15,6 +15,7 @@ class Board extends Model
     protected $fillable = [
         'classroom_id',
         'computer_id',
+        'size',
     ];
 
     public function computers()

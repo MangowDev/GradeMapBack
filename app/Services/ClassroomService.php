@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Classroom;
+use App\Models\Board;
 
 class ClassroomService
 {
@@ -18,13 +19,14 @@ class ClassroomService
 
     public function getClassroomWithRelations(int $id): ?Classroom
     {
-        return Classroom::with('teacher')->find($id);
+        return Classroom::with(['boards', 'teacher'])->find($id);
     }
 
     public function getClassroomById(int $id): ?Classroom
     {
         return Classroom::find($id);
     }
+
 
     public function createClassroom(array $data): Classroom
     {

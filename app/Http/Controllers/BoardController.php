@@ -39,6 +39,19 @@ class BoardController extends Controller
         return response()->json($board, Response::HTTP_OK);
     }
 
+    public function getBoardsBatchDetails(Request $request)
+    {
+        $validated = $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:boards,id',
+        ]);
+
+        $boards = $this->boardService->getBoardsWithRelationsByIds($validated['ids']);
+
+        return response()->json($boards, Response::HTTP_OK);
+    }
+
+
     /**
      * Crea una nueva board.
      */
@@ -46,6 +59,7 @@ class BoardController extends Controller
     {
         $validated = $request->validate([
             'classroom_id' => 'nullable|exists:classrooms,id',
+            'size' => 'integer|between:1,5',
         ]);
 
         $board = $this->boardService->createBoard($validated);
@@ -59,6 +73,7 @@ class BoardController extends Controller
     {
         $validated = $request->validate([
             'classroom_id' => 'sometimes|nullable|exists:classrooms,id',
+            'size' => 'sometimes|integer|between:1,5',
         ]);
 
         $board = $this->boardService->updateBoard($id, $validated);

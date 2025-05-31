@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('boards', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('classroom_id')->nullable();
+            $table->integer('size');
             $table->timestamps();
 
             $table->foreign('classroom_id')->references('id')->on('classrooms')->nullOnDelete();

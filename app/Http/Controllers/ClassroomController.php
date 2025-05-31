@@ -33,7 +33,7 @@ class ClassroomController extends Controller
         return response()->json($classrooms, Response::HTTP_OK);
     }
 
-        public function getClassroomDetails(int $id)
+    public function getClassroomDetails(int $id)
     {
         $classroom = $this->classroomService->getClassroomWithRelations($id);
 
@@ -55,7 +55,7 @@ class ClassroomController extends Controller
         }
         return response()->json($classroom, Response::HTTP_OK);
     }
-
+    
     /**
      * Crea un nuevo aula.
      */

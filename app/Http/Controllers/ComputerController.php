@@ -73,26 +73,37 @@ class ComputerController extends Controller
         return response()->json($computers, Response::HTTP_OK);
     }
 
+    public function getComputersBatchDetails(Request $request)
+    {
+        $validated = $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:computers,id',
+        ]);
+
+        $computers = $this->computerService->getComputersWithRelationsByIds($validated['ids']);
+
+        return response()->json($computers, Response::HTTP_OK);
+    }
 
 
     /**
      * Actualiza los datos de un ordenador.
      */
-public function updateComputer(Request $request, int $id)
-{
-    $validated = $request->validate([
-        'board_id' => 'sometimes|nullable|exists:boards,id',
-        'user_id' => 'sometimes|nullable|exists:users,id',
-    ]);
+    public function updateComputer(Request $request, int $id)
+    {
+        $validated = $request->validate([
+            'board_id' => 'sometimes|nullable|exists:boards,id',
+            'user_id' => 'sometimes|nullable|exists:users,id',
+        ]);
 
-    $computer = $this->computerService->updateComputer($id, $validated);
+        $computer = $this->computerService->updateComputer($id, $validated);
 
-    if (!$computer) {
-        return response()->json(['message' => 'Ordenador no encontrado o no se pudo actualizar'], Response::HTTP_NOT_FOUND);
+        if (!$computer) {
+            return response()->json(['message' => 'Ordenador no encontrado o no se pudo actualizar'], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json($computer, Response::HTTP_OK);
     }
-
-    return response()->json($computer, Response::HTTP_OK);
-}
 
     /**
      * Elimina un ordenador por su ID.
