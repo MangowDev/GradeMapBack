@@ -31,7 +31,8 @@ class SubjectController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:40',
-            'image' => 'nullable|string'
+            'image' => 'nullable|string',
+            'teacher_id' => 'nullable|exists:users,id',
         ]);
 
         $subject = $this->subjectService->createSubject($validated);
@@ -54,13 +55,28 @@ class SubjectController extends Controller
     }
 
     /**
+     * Devuelve todos los usuarios vinculados a una asignatura.
+     */
+    public function getUsersBySubject(int $id)
+    {
+        $users = $this->subjectService->getUsersBySubjectId($id);
+
+        if (is_null($users)) {
+            return response()->json(['message' => 'Asignatura no encontrada'], 404);
+        }
+
+        return response()->json($users, 200);
+    }
+
+    /**
      * Actualiza los datos de un subject.
      */
     public function updateSubject(Request $request, int $id)
     {
         $validated = $request->validate([
             'name' => 'sometimes|required|string|max:255',
-            'image' => 'nullable|string'
+            'image' => 'nullable|string',
+            'teacher_id' => 'sometimes|nullable|exists:users,id',
         ]);
 
         $subject = $this->subjectService->updateSubject($id, $validated);

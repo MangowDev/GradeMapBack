@@ -8,14 +8,24 @@ class SubjectService
 {
     public function getAllSubjects()
     {
-        return Subject::all();
+        return Subject::with('teacher')->get();
     }
 
     public function getSubjectById(int $id): ?Subject
     {
-        return Subject::find($id);
+        return Subject::with('teacher')->find($id);
     }
 
+    public function getUsersBySubjectId(int $subjectId)
+    {
+        $subject = Subject::with(['users.classroom'])->find($subjectId);
+
+        if (!$subject) {
+            return null;
+        }
+
+        return $subject->users;
+    }
     public function createSubject(array $data): Subject
     {
         return Subject::create($data);

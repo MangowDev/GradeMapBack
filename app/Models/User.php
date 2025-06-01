@@ -62,24 +62,32 @@ class User extends Authenticatable
         return $this->belongsTo(Computer::class, 'computer_id');
     }
 
-    public function grades() {
+    public function grades()
+    {
         return $this->hasMany(Grade::class);
     }
 
-    public function classroomsAsTeacher() {
+    public function classroomsAsTeacher()
+    {
         return $this->hasMany(Classroom::class, 'teacher_id');
     }
 
     public function classroom()
-{
-    return $this->hasOneThrough(
-        Classroom::class,   
-        Board::class,       
-        'id',               
-        'id',               
-        'computer_id',      
-        'classroom_id'      
-    );
-}
-     
+    {
+        return $this->hasOneThrough(
+            Classroom::class,
+            Board::class,
+            'id',
+            'id',
+            'computer_id',
+            'classroom_id'
+        );
+    }
+
+
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'user_subjects')
+            ->using(UserSubjects::class);
+    }
 }

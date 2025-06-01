@@ -50,6 +50,19 @@ class GradeController extends Controller
         return response()->json($grade, Response::HTTP_OK);
     }
 
+    public function getGradesBySubject(int $subjectId)
+    {
+        $grades = $this->gradeService->getGradesBySubjectId($subjectId);
+
+        if ($grades->isEmpty()) {
+            return response()->json(['message' => 'No se encontraron calificaciones para esta asignatura'], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json($grades, Response::HTTP_OK);
+    }
+
+
+
     public function getAllGradesWithRelations()
     {
         $grades = $this->gradeService->getAllGradesWithRelations();

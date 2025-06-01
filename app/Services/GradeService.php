@@ -26,6 +26,14 @@ class GradeService
         return Grade::with(['user', 'subject'])->get();
     }
 
+    public function getGradesBySubjectId(int $subjectId)
+    {
+        return Grade::with(['user', 'subject'])
+            ->where('subject_id', $subjectId)
+            ->get();
+    }
+
+
     public function createGrade(array $data): Grade
     {
         return Grade::create($data);
