@@ -26,7 +26,7 @@ class GradeSeeder extends Seeder
             $userSubjects = $subjects->random(rand(3, 6));
             foreach ($userSubjects as $subject) {
                 Grade::create([
-                    'grade' => (float) number_format(rand(0, 100) + rand(0, 99) / 100, 2, '.', ''),
+                    'grade' => (float) number_format(rand(10, 100) + rand(0, 99) / 100, 2, '.', ''),
                     'type' => rand(0, 1) ? 'Examen' : 'Trabajo',
                     'name' => 'Nota de ' . $subject->name,
                     'user_id' => $user->id,

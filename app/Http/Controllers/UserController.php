@@ -115,7 +115,7 @@ class UserController extends Controller
             'name' => 'sometimes|string|max:20',
             'surnames' => 'sometimes|string|max:30',
             'role' => 'sometimes|string',
-            'computer_id' => 'sometimes|numeric'
+            'computer_id' => 'nullable|numeric'
         ]);
 
         $user = $this->userService->updateUser($id, $validated);
