@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\Subject;
 use App\Models\Grade;
 
 class GradeSeeder extends Seeder
@@ -14,16 +13,21 @@ class GradeSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = User::all();
-        $subjects = Subject::all();
+        $users = User::with('subjects')->get();
 
-        if ($users->isEmpty() || $subjects->isEmpty()) {
-            $this->command->warn('No hay usuarios o materias disponibles. Asegúrate de crear ambos en los seeders correspondientes.');
+        if ($users->isEmpty()) {
+            $this->command->warn('No hay usuarios disponibles. Asegúrate de crear usuarios en los seeders correspondientes.');
             return;
         }
 
         foreach ($users as $user) {
-            $userSubjects = $subjects->random(rand(3, 6));
+            $userSubjects = $user->subjects;
+
+            if ($userSubjects->isEmpty()) {
+                $this->command->warn("El usuario {$user->id} no tiene asignaturas asignadas.");
+                continue;
+            }
+
             foreach ($userSubjects as $subject) {
                 Grade::create([
                     'grade' => (float) number_format(rand(10, 100) + rand(0, 99) / 100, 2, '.', ''),

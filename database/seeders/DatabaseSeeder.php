@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
             BoardSeeder::class,
             ComputerSeeder::class,
             AssignComputerToUserSeeder::class,
+            UserSubjectsSeeder::class,
             GradeSeeder::class,
-            UserSubjectsSeeder::class
         ]);
     }
 }
